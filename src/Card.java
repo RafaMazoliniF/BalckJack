@@ -8,7 +8,7 @@ public class Card
    {
       this.face = face;
       this.suit = suit; 
-   } 
+   }
 
    // return String representation of Card
    public String toString() 

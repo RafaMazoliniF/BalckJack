@@ -2,99 +2,74 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BlackJack {
-    static boolean is_playing = true;
-
     public static void main(String[] args) {
-        //Scanner
-        Scanner scanner = new Scanner(System.in);
-        Dealer dealer = new Dealer();
         ArrayList<Player> players = new ArrayList<Player>();
+        Dealer dealer = new Dealer();
 
-        //Número de participantes
-        int num_playersAux = 2;
-        do{
-            System.out.print("\nInsira o número de participantes (Mínimo de 2): ");
-            num_playersAux = scanner.nextInt();
-            if (num_playersAux < 2) System.out.println("\nValor inválido. Tente novamente.");
-        } while (num_playersAux < 2);
+        Scanner scanner = new Scanner(System.in);
 
-        final int num_players = num_playersAux;
+        System.out.print("========== BLACK JACK ==========\n\n");
 
-        //Começo do jogo
-        System.out.println("\n\n" +
-                           "========== BLACK JACK ==========\n\n");
+        //*Cria todos os jogadores
+        System.out.print("Quantos jogadores participarão?\n> ");
+        int num_players = scanner.nextInt();
 
-        //Turno a turno
-        for (int turn = 0; is_playing; turn++){
-            System.out.printf("\n\nTURNO %d", turn);
+        for (int i = 0; i < num_players; i++) {
+            System.out.print("\nDigite o nome do novo jogador: ");
+            players.add(new Player(scanner.next()));
+        }
 
-            //Turno inicial -> jogadores recebem as cartas
-            if (turn == 0) {
-                System.out.println("\n\n*Jogadores recebem suas mãos iniciais*\n\n");
+        players.forEach((player) -> {
+            player.insertCard(dealer.getDeck().pop());
+            player.insertCard(dealer.getDeck().pop());
+        });
 
-                //Dealer hand
-                dealer.insertCard(dealer.getDeck().pop());
-                dealer.insertCard(dealer.getDeck().pop());
+        //* LOOP PRINCIPAL
+        for (int turn = 0; true; turn++) {
+            System.out.println("\nTURNO " + turn);
 
-                //Players hand
-                for (int i = 0; i < num_players; i++) {
-                    System.out.printf("\nMão do(a) %d\nInsira o seu nome: ", i + 1);
-                    String player_name = scanner.next();
+            for (int i = 0; i < players.size(); i++) {
+                Player current_player = players.get(i);
 
-                    players.add(new Player(player_name));
-                    Player current_player = players.get(i);
-
-                    current_player.insertCard(dealer.getDeck().pop());
-                    current_player.insertCard(dealer.getDeck().pop());
-
-                    System.out.println("\n!Digite qualquer coisa para mostrar a mão!");
-                    scanner.next();
+                //Turno inicial
+                if (turn == 0) {
+                    System.out.print("\nMão do(a) jogador(a) " + current_player.getName() + "\n");
                     current_player.printHand();
                 }
-            }
 
-            else {
-                //Jogador a jogador
-                for (int i = 0; i < players.size(); i++) {
-                    Player current_player = players.get(i);
-
-                    System.out.print("\nTurno do(a) " + current_player.getName());
-                    System.out.print("\nDigite:" +
-                            "\n[1] para comprar uma carta;" +
-                            "\n[-] para parar;\n> ");
-
-                    //Escolhe comprar ou parar
-                    int choice = scanner.nextInt();
-
-                    //Comprou
-                    if (choice == 1) {
-                        Card new_card = dealer.getDeck().pop();
-                        current_player.insertCard(new_card);
-                        System.out.println("\nA carta comprada foi: " + new_card.toString());
-                        System.out.println("O seu novo baralho é: ");
+                //Começou o jogo
+                else {
+                    System.out.print("\nVez de " + current_player.getName() +
+                                     "\nDigite [0] para parar ou [1] para comprar mais uma carta: ");
+                    int para_ou_compra = scanner.nextInt();
+                    if (para_ou_compra == 1) {
+                        current_player.insertCard(dealer.getDeck().pop());
+                        System.out.print("\nSua nova mão é:\n");
                         current_player.printHand();
-
-                        if (current_player.getHandValue() == 21) {
-                            System.out.println("\nBLACK JACK!");
-                            endGame();
-                        } else if (current_player.getHandValue() > 21) {
-                            System.out.println("\nPERDEU...");
-                            if (players.size() > 2) {
-                                players.remove(current_player);
-                            } else {
-                                players.remove(current_player);
-                                System.out.println("O jogador " + current_player.getName() + "venceu");
-                                endGame();
-                            }
-                        }
+                    } else if (para_ou_compra != 0) {
+                        System.out.print("Escolha inválida. Por padrão, você parou.");
                     }
+
+                    if (current_player.getHandValue() == 21) {
+                        endGame(current_player);
+                    } else if (current_player.getHandValue() > 21) {
+                        System.out.print("\n" + current_player.getName() + " perdeu...");
+                        players.remove(current_player);
+                        i--;
+                    }
+
+                    if (players.size() == 1) endGame(players.get(0));
                 }
             }
         }
+
+
+
     }
 
-    //End the turns loop
-    static void endGame() {
-        is_playing = false;
+    //Termina o jogo fechando o programa
+    static void endGame (Player winner) {
+        System.out.print("\n\nO(a) JOGADOR(a) " + winner.getName().toUpperCase() + " VENCEU!");
+        System.exit(0);
     }
 }

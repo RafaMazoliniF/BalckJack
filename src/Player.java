@@ -13,7 +13,7 @@ public class Player {
     }
 
     public Player(String name) {
-        this.name = name;
+        this.name = name.toUpperCase();
     }
 
     //Adiciona uma nova carta à mão
