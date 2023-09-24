@@ -20,6 +20,8 @@ public class Player {
     public void insertCard(Card new_card) {
         hand.add(new_card);
         switch (new_card.getFace()) {
+            case "Ás":
+                handValue += 11; break;
             case "Dois":
                 handValue += 2; break;
             case "Três":
@@ -42,9 +44,14 @@ public class Player {
             case "Rei" :
                 handValue += 10; break;
             default:
-                if (handValue + 11 > 21) handValue++;
-                else handValue += 11;
+                break;
         }
+
+        hand.forEach((card) -> {
+            if (card.getFace() == "Ás" && handValue > 21) {
+                handValue -= 10;
+            }
+        });
     }
 
     public void printHand() {
