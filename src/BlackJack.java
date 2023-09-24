@@ -18,19 +18,40 @@ public class BlackJack {
                         "\n\'J\', \'Q\',\'k\'  valem 10 pontos." +
                         "\n As demais cartas, seu próprio valor.");
 
+<<<<<<< HEAD
+        // Regras
+        System.out.print("===================== BLACK JACK ========================\n\n");
+        System.out.print("VALOR DAS CARTAS\n");
+        System.out.print("\n O \'ás\' vale 1 ou 11 pontos." +
+                "\n\'J\', \'Q\',\'k\'  valem 10 pontos." +
+                "\n As demais cartas, seu próprio valor.");
+
+
+        System.out.println("\n\n===============Como Jogar o Black Jack==================\n");
+        System.out.println("No seu turno, cada jogador tem várias opções sempre e quando não tenha \"blackjackz\":" +
+                "\n\n 1- \"Pedir carta\". O dealer distribui uma carta mais ao jogador." +
+                "\n Se as cartas somarem mais de 21 pontos, automaticamente perde e passa a vez." +
+                "\n 2- \"Parar\". O jogador fica com as cartas que tiver e passa a vez ao seguinte jogador.");
+=======
 
         System.out.println("\n\n===============Como Jogar o Black Jack==================\n");
         System.out.println("No seu turno, cada jogador tem várias opções sempre e quando não tenha \"blackjackz\":" +
         "\n\n 1- \"Pedir carta\". O dealer distribui uma carta mais ao jogador." + 
         "\n Se as cartas somarem mais de 21 pontos, automaticamente perde e passa a vez." +
         "\n 2- \"Parar\". O jogador fica com as cartas que tiver e passa a vez ao seguinte jogador.");
+>>>>>>> e926e13f24679a03ef7e7e09da4a525b9163e053
 
         System.out.print("\n\n======================= O Dealer ========================\n\n");
 
         System.out.println("Quando todos os jogadores terminarem seu turno, o dealer fará sua jogada."+
+<<<<<<< HEAD
+                "\nNão pode dobrar, dividir, desistir e nem apostar seguro.");
+
+=======
                             "\nEstá obrigado a dar-se cartas até que a sua jogada some 17 pontos ou mais."+
                             "\nNão pode dobrar, dividir, desistir e nem apostar seguro.");
                 
+>>>>>>> e926e13f24679a03ef7e7e09da4a525b9163e053
         System.out.print("\n\n======================= BOM JOGO ========================\n\n");
 
         //*Cria todos os jogadores
@@ -90,7 +111,7 @@ public class BlackJack {
 
                         if (players.size() == 1) {
                             players.add(dealer);
-                            System.out.print("\n\nMão da Mesa:\n");
+                            System.out.print("\n\nMão da MESA:\n");
                             dealer.printHand();
                         }
                     }
@@ -101,7 +122,7 @@ public class BlackJack {
                     if (players.get(0).getHandValue() > dealer.getHandValue()) {
                         System.out.print("\n\nMESA COMPRA UMA CARTA\n\n");
                         dealer.insertCard(dealer.getDeck().pop());
-                        System.out.print("\n\nNova mão da mesa:\n");
+                        System.out.print("\n\nNova mão da MESA:\n");
                         dealer.printHand();
                     }
 
