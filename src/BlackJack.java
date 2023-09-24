@@ -2,13 +2,36 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BlackJack {
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
         ArrayList<Player> players = new ArrayList<Player>();
         Dealer dealer = new Dealer();
 
         Scanner scanner = new Scanner(System.in);
+        
+        // Regras 
+        System.out.print("===================== BLACK JACK ========================\n\n");
+        System.out.print("VALOR DAS CARTAS\n");
+        System.out.print("\n O \'ás\' vale 1 ou 11 pontos." +
+                        "\n\'J\', \'Q\',\'k\'  valem 10 pontos." +
+                        "\n As demais cartas, seu próprio valor.");
 
-        System.out.print("========== BLACK JACK ==========\n\n");
+
+        System.out.println("\n\n===============Como Jogar o Black Jack==================\n");
+        System.out.println("No seu turno, cada jogador tem várias opções sempre e quando não tenha \"blackjackz\":" +
+        "\n\n 1- \"Pedir carta\". O dealer distribui uma carta mais ao jogador." + 
+        "\n Se as cartas somarem mais de 21 pontos, automaticamente perde e passa a vez." +
+        "\n 2- \"Parar\". O jogador fica com as cartas que tiver e passa a vez ao seguinte jogador.");
+
+        System.out.print("\n\n======================= O Dealer ========================\n\n");
+
+        System.out.println("Quando todos os jogadores terminarem seu turno, o dealer fará sua jogada."+
+                            "\nEstá obrigado a dar-se cartas até que a sua jogada some 17 pontos ou mais."+
+                            "\nNão pode dobrar, dividir, desistir e nem apostar seguro.");
+                
+        System.out.print("\n\n======================= BOM JOGO ========================\n\n");
 
         //*Cria todos os jogadores
         System.out.print("Quantos jogadores participarão?\n> ");
@@ -27,7 +50,7 @@ public class BlackJack {
         dealer.insertCard(dealer.getDeck().pop());
         dealer.insertCard(dealer.getDeck().pop());
 
-        //* LOOP PRINCIPAL
+        //* LOOP PRINCIPAL**
         for (int turn = 0; true; turn++) {
             System.out.println("\nTURNO " + turn);
 
@@ -39,6 +62,7 @@ public class BlackJack {
                     if (turn == 0) {
                         System.out.print("\nMão do(a) jogador(a) " + current_player.getName() + "\n");
                         current_player.printHand();
+                        if (current_player.getHandValue() == 21) endGame(current_player);
                     }
 
                     //Começou o jogo
@@ -50,8 +74,6 @@ public class BlackJack {
                             current_player.insertCard(dealer.getDeck().pop());
                             System.out.print("\nSua nova mão é:\n");
                             current_player.printHand();
-                        } else if (para_ou_compra != 0) {
-                            System.out.print("Escolha inválida. Por padrão, você parou.");
                         } else {
                             if (players.contains(dealer)) {
                                 if (dealer.getHandValue() > current_player.getHandValue()) endGame(dealer);
